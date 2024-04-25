@@ -1,0 +1,87 @@
+﻿@model List<DoAnLTWeb.Models.Invoice>
+
+@{
+    ViewData["Title"] = "List of Invoices";
+}
+
+<h1>List of Invoices</h1>
+
+@foreach (var invoice in Model)
+{
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Invoice ID</th>
+                    <th>Customer ID</th>
+                    <th>Staff ID</th>
+                    <th>Date Created</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@invoice.Idinvoice</td>
+                    <td>@invoice.Idcustomer</td>
+                    <td>
+                        @if (invoice.Status == 3)
+                        {
+                            <span>@invoice.Idstaff</span>
+                        }else if(invoice.Status == 2)
+                        {
+                            <span>@invoice.Idstaff</span>
+
+                        }
+                        else
+                        {
+                            <select id="selectStaff_@invoice.Idinvoice" class="form-control" onchange="updateSelectedStaff(this)">
+                                <option value="">-- Select Staff --</option>
+                                @foreach (var staff in ViewBag.StaffList)
+                                {
+                                    <option value="@staff.Idstaff">@staff.StaffName</option>
+                                }
+                            </select>
+                            <input type="hidden" name="idInvoice" value="@invoice.Idinvoice" />
+                            <input type="hidden" name="selectedStaff" id="selectedStaff_@invoice.Idinvoice" />
+                            <input type="hidden" name="idAdmin" value="7" />
+                        }
+                    </td>
+                    <td>@invoice.DateCreated.ToString("yyyy-MM-dd")</td>
+                    <td>@invoice.Status</td>
+                     <form id="UpdateStatus_@invoice.Idinvoice" method="post" asp-action="UpdateStatus" asp-controller="Invoice">
+                    <td>
+                        @if (invoice.Status == 1)
+                        {
+                            <button type="submit" class="btn btn-success">giao</button>
+                        }
+                        else if (invoice.Status == 2)
+                        {
+                            <button class="btn btn-warning" disabled>chờ xác nhận</button>
+                        }
+                        else if (invoice.Status == 3)
+                        {
+                            <button class="btn btn-info" disabled>hoàn thành đơn</button>
+                        }
+                    </td>
+                    </form>
+                <form asp-route-id="@invoice.Idinvoice" asp-action="deltail" asp-controller="Invoice">
+                    <td>
+                        @if (invoice.Status == 1)
+                        {
+                            <button type="submit" class="btn btn-success">Chi tiết hóa đơn</button>
+                        }
+                    </td>
+                    </form>
+
+                </tr>
+            </tbody>
+        </table>
+}
+
+<script>
+    function updateSelectedStaff(select) {
+        var invoiceId = select.id.replace("selectStaff_", "");
+        var selectedStaffInput = document.getElementById("selectedStaff_" + invoiceId);
+        selectedStaffInput.value = select.value;
+    }
+</script>

@@ -1,0 +1,104 @@
+﻿    @model X.PagedList.IPagedList<DoAnLTWeb.Models.User>
+    @using X.PagedList.Mvc;
+    @using X.PagedList.Mvc.Core
+@{
+    int ktr = 0;
+}
+<table class="table table-striped">
+    <div class="box">
+    <thead>
+        <tr>
+            <th>Userame</th>
+            <th>Email</th>
+            <th>ID Khách Hàng</th>
+            <th>Tên Khách Hàng</th>
+            <th>Địa chỉ Khách Hàng</th>
+            <th>Số điện thoại Khách Hàng</th>
+            <th>Số CCCD/CMND</th>
+            <th>Ngày sinh</th>
+            <th>Giới tính</th>
+            <th>Trạng Thái</th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var user in Model)
+            {
+                ktr = 0;
+
+            <tr>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                    @foreach (Customer customer in ViewBag.customer)
+                    {
+                        @if (@customer.Username == @user.Username)
+                        {
+                            ktr++;
+                            <td>@customer.Idcustomer</td>
+                            <td>@customer.CustomerName</td>
+                            <td>@customer.CustomerAddress</td>
+                            <td>@customer.PhoneCustomer</td>
+                            <td>@customer.CitizenIdentificationCode</td>
+                            <td>@customer.DateOfBirth</td>
+                            <td>@customer.Sex</td>
+                        
+                        }
+                    }
+                    @if (ktr == 0)
+                    {
+
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    }
+                    <td>
+                        <form asp-action="Update" method="post" asp-route-id="@user.Username">
+                            <select name="status" class="form-control">
+                                    @if (user.Check == 5)
+                                    {
+                                    <option value="1" selected="true">không</option>
+                                    <option value="5">có</option>
+                                    }
+                                    else if (user.Check == 1)
+                                    {
+                                    <option value="5">không</option>
+                                    <option value="1" selected="true">có</option>
+                                    }
+                            </select>
+
+                            <input type="hidden" id="selectedStatus" name="status" />
+                            <input type="hidden" id="selectedUsername" name="username" value="@user.Username" />
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+                    </td>
+                    
+
+            </tr>
+            }
+        </div>
+
+
+    </tbody>
+</table>
+<div class="box">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
+
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var statusSelect = document.getElementsByName('status')[0];
+        var hiddenInput = document.getElementById('selectedStatus');
+
+        statusSelect.addEventListener('change', function () {
+            var selectedOption = this.options[this.selectedIndex];
+            var selectedValue = selectedOption.value;
+            hiddenInput.value = selectedValue;
+        });
+    });
+</script>
+

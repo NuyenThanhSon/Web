@@ -1,0 +1,239 @@
+﻿@model X.PagedList.IPagedList<DoAnLTWeb.Models.Product>
+@using X.PagedList.Mvc;
+@using X.PagedList.Mvc.Core
+@{
+    var list = Model;
+    var l = new List<Product>();
+    int k = 0;
+    if (ViewBag.warehousedetail != null)
+    {
+        foreach (var product in ViewBag.warehousedetail)
+        {
+            foreach (var pro in Model)
+            {
+                if (pro.Idproduct == product.Idproduct)
+                {
+                    if (l.Count == 0)
+                    {
+                        l.Add(pro);
+                    }
+                    else
+                    {
+                        k = 0;
+                        foreach (var ktr in l)
+                        {
+                            if (ktr.Idproduct == pro.Idproduct)
+                            {
+                                k += 1;
+                            }
+                        }
+                        if (k == 0)
+                        {
+                            l.Add(pro);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}
+@{
+    ViewData["Title"] = "IndexSale";
+}
+<section>
+    <div class="breadcum-container container-fluid">
+        <div class="box container">
+            <div class="breadcum">
+                <a href="/trang-chu">Trang chủ</a>
+                <span><i class='bx bxs-chevrons-right'></i></span>
+                <a href="/san-pham">Shop</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="box mt-5">
+            <div class="row">
+                <div class="col-3 filter-col" id="filter-col">
+                    <div class="box filter-toggle-box">
+                        <button class="">Close</button>
+                    </div>
+
+                    <div class="box">
+                        <div class="form form-search">
+                            <i class="bx bx-search"></i>
+                            <input type="text" class="form-control form-input" placeholder="Tìm kiếm...">
+                        </div>
+                        <span class="filter-header">
+                            Sản phẩm
+                        </span>
+                        <ul class="filter-list">
+                            @foreach (ProductType productType in ViewBag.ProductType)
+                            {
+                                <li><a asp-action="Indexproducttype" asp-route-idproducttype="@productType.IdproductType">@productType.ProductTypeName</a></li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="box">
+                        <span class="filter-header">
+                            Giá
+                        </span>
+                        <div class="price-range">
+                            <input type="text">
+                            <span>-</span>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="box">
+                        <ul class="filter-list">
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="status1">
+                                    <label for="status1">
+                                        Giảm giá
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="status2">
+                                    <label for="status2">
+                                        Mới
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="status3">
+                                    <label for="status3">
+                                        Đã sử dụng
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="box">
+                        <span class="filter-header">
+                            Hãng
+                        </span>
+                        <ul class="filter-list">
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="remember1">
+                                    <label for="remember1">JBL</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="remember1">
+                                    <label for="remember1">Razer</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="remember1">
+                                    <label for="remember1">HyperX</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="remember1">
+                                    <label for="remember1">Logitech</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="remember1">
+                                    <label for="remember1">Samsung</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="box">
+                        <span class="filter-header">
+                            Màu
+                        </span>
+                        <ul class="filter-list">
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="remember1">
+                                    <label for="remember1">Trắng</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="remember1">
+                                    <label for="remember1">Đen</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="remember1">
+                                    <label for="remember1">Đỏ</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="remember1">
+                                    <label for="remember1">Xanh</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="remember1">
+                                    <label for="remember1">Vàng</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="box filter-toggle-box">
+                        <button class="">Lọc</button>
+                    </div>
+                    <div class="box">
+                        <div class="row ml-5">
+                            @foreach (var product in Model)
+                            {
+                                <div class="col-xl-3 col-sm-6">
+                                    <div class="product-card">
+                                        <div class="product-card-img">
+                                            <a href="detailproduct.html">
+                                                <img src="~/img/hd-1.png" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="product-card-info">
+                                            <div class="product-card-btn">
+                                                <button class="btn-card">shop</button>
+                                                <button class="btn-card"><i class='bx bx-heart'></i></button>
+                                                <button class="btn-card"><i class='bx bx-cart'></i></button>
+                                            </div>
+
+
+                                            <div class="product-card-name">
+                                                @product.ProductName
+                                            </div>
+                                            <div class="product-card-price">
+                                                <span><del>@product.Price VND</del></span>
+                                                <span class="curr-price">@(product.Price * (((decimal?)(1 - product.Sale / 100)))) VND</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="box">
+                        @Html.PagedListPager(Model, page => Url.Action("IndexSale", new { page }), new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

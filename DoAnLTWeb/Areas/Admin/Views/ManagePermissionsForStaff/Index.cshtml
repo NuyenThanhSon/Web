@@ -1,0 +1,58 @@
+﻿@model X.PagedList.IPagedList<DoAnLTWeb.Models.Staff>
+@using X.PagedList.Mvc;
+@using X.PagedList.Mvc.Core
+
+<table class="table table-striped">
+    <div class="box">
+    <thead>
+        <tr>
+            <th>ID Nhân viên</th>
+            <th>Tên nhân viên</th>
+            <th>Địa chỉ nhân viên</th>
+            <th>Số điện thoại nhân viên</th>
+            <th>Số CCCD/CMND</th>
+            <th>Loại nhân viên</th>
+            <th>Ngày sinh</th>
+            <th>Giới tính</th>
+            <th>Ảnh</th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (Staff staff in Model)
+            {
+            <tr>
+                <td>@staff.Idstaff</td>
+                <td>@staff.StaffName</td>
+                <td>@staff.StaffAddress</td>
+                <td>@staff.PhoneStaff</td>
+                <td>@staff.CitizenIdentificationCode</td>
+                <td>@staff.IdstaffTypeNavigation?.StaffTypeName</td>
+                <td>@staff.DateOfBirth</td>
+                <td>@staff.Sex</td>
+                <td>
+                        @if (@staff.IdImages != null)
+                        {
+                        <img src="@staff.IdImagesNavigation?.UrlImages" alt="Product Image" style="max-width: 20px;" />
+                        }
+
+                <td>
+                            @* <a asp-area="Admin" asp-controller="ManageAccountsWithoutAuthorizedAccessController" asp-action="Update" asp-route-id="@staff.Idstaff" class="btn btn-danger">Thay đổi trạng thái</a> *@
+                    <form asp-action="Update"
+                          asp-controller="ManagePermissionsForStaff" method="get"
+                          asp-route-id="@staff.Idstaff">
+                        <input hidden type="type" name="id" value="@staff.Idstaff" />
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </form>
+                </td>
+            </tr>
+
+            }
+        </div>
+
+       
+    </tbody>
+</table>
+<div class="box">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
+
+</div>

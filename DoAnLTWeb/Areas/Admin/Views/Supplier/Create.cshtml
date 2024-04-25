@@ -1,0 +1,30 @@
+﻿<h2>Create Supplier</h2>
+<form asp-action="Createpost" asp-controller="Supplier" method="post" enctype="multipart/form-data">
+    <!-- Supplier Name -->
+    <div class="form-group">
+        <label for="SupplierName">Supplier Name</label>
+        <input name="SupplierName" value="" class="form-control" />
+    </div>
+
+    <!-- Phone Number -->
+    <div class="form-group">
+        <label for="PhoneSupplier">Phone Number</label>
+        <input name="PhoneSupplier" value="" class="form-control" />
+    </div>
+
+    <!-- Address -->
+    <div class="form-group">
+        <label for="SupplierAddress">Address</label>
+        <textarea name="SupplierAddress" class="form-control"></textarea>
+    </div>
+
+
+    <!-- Email (optional) -->
+    <div class="form-group">
+        <label for="EmailSupplier">Email (optional)</label>
+        <input name="EmailSupplier" value="" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" asp-controller="Supplier" class="btn btn-primary">Back</a>
+</form>

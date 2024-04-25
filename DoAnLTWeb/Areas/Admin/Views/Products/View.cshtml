@@ -1,0 +1,60 @@
+﻿@model List<DoAnLTWeb.Models.Product>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <!-- Tiêu đề và breadcrumb -->
+        <h1>
+            Quản lý sản phẩm
+        </h1>
+        <ol class="breadcrumb">
+            <li><a asp-action="Add" asp-area="admin" asp-controller="Products"><i class="fa fa-dashboard"></i>Create</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-body">
+                <table class="table">
+                    <!-- Header của bảng -->
+                    <thead>
+                        <!-- Các cột -->
+                        <tr>
+                            <th scope="col">IDProduct</th>
+                            <th scope="col">ProductName</th>
+                            <th scope="col">ProductTypeName</th>
+                            <th scope="col">price/sale_price</th>
+                            <th scope="col">status</th>
+                        </tr>
+                    </thead>
+                    <!-- Dữ liệu sản phẩm -->
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Idproduct</td>
+                                <td>@item.ProductName</td>
+                                <td>@item.IdproductType</td>
+                                <td>@item.Price/@item.Sale</td>
+                                <td>@(item.Status == 0 ? "tạm ẩn" : "hiển thị")</td>
+                                <td>
+                                    <a asp-action="Update" asp-area="admin" asp-controller="Products" asp-route-id="@item.Idproduct" class="btn btn-sm btn-primary "> <i class="fa fa-edit"> </i>Edit</a>
+                                    <form asp-action="DeleteProduct" asp-area="admin" asp-controller="Products" method="post">
+                                    <input hidden name="idproduct" value="@item.Idproduct" />
+                                    <button
+                                    class="btn btn-sm btn-danger  "> <i class="fa fa-trash"> </i>Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- Phân trang -->
+
+        </div>
+    </section>
+</div>

@@ -1,0 +1,10 @@
+﻿<h2>Update ProductType</h2>
+<form asp-action="Update" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="IdproductType" value="@Model.IdproductType" />
+    <div class="form-group">
+        <label for="ProductTypeName">Product Type Name</label>
+        <input type="text" name="ProductTypeName" value="@Model.ProductTypeName" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-action="Index" class="btn btn-primary">Back</a>
+</form>

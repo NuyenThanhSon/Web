@@ -1,0 +1,54 @@
+﻿@model List<DoAnLTWeb.Models.Invoicedetail>
+
+@{
+    ViewData["Title"] = "deltail";
+}
+
+<h1>Mã hóa đơn: @ViewBag.idinvoice</h1>
+        @foreach(Invoicedetail invoicedetail in Model)
+        {
+            <table id="shoppingCart" class="table table-condensed table-responsive">
+                <thead>
+                    <tr>
+                        <th style="width:60%">Sản phẩm</th>
+                        <th style="width:12%">Giá</th>
+                        <th style="width:10%">Số lượng</th>
+                        <th style="width:10%">Thành tiền</th>
+                            </tr>
+            </thead>
+            <tbody>
+
+                    @foreach (Product product in ViewBag.product)
+                    {
+                        @if (product.Idproduct == invoicedetail.Idproduct)
+                        {
+                            <tr>
+                                <td data-th="Product">
+                                    <div class="row">
+                                        <div class="col-md-3 text-left">
+                                            <img src="~/img/hd-1.png" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                        </div>
+                                        <div class="col-md-9 text-left mt-sm-2">
+                                            <h4>@product.ProductName</h4>
+                                            <p class="font-weight-light">tronix</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-th="Price">@product.Price.ToString("N0") VND</td>
+                                <td data-th="Quantity">
+                                    <div class="text-center">@invoicedetail.TotalQuantity</div>
+                                </td>
+                                <td class="actions" data-th="">
+                                    <div class="text-right">@((invoicedetail.Price * invoicedetail.TotalQuantity).ToString("N0")) VND</div>
+                                </td>
+                            </tr>
+                        }
+                
+                    }
+        
+        
+
+                    </tbody>
+                </table>
+            }
+    <a class="btn btn-primary" asp-action="Index" asp-controller="Invoice">Back</a>

@@ -1,0 +1,719 @@
+﻿@model IEnumerable<DoAnLTWeb.Models.Product>
+
+
+@{
+    int kt = 0;
+    var list = Model;
+    var l = new List<Product>();
+    int k = 0;
+    if (ViewBag.warehousedetail != null)
+    {
+        foreach (var product in ViewBag.warehousedetail)
+        {
+            foreach (var pro in Model)
+            {
+                if (pro.Idproduct == product.Idproduct)
+                {
+                    if (l.Count == 0)
+                    {
+                        l.Add(pro);
+                    }
+                    else
+                    {
+                        k = 0;
+                        foreach (var ktr in l)
+                        {
+                            if (ktr.Idproduct == pro.Idproduct)
+                            {
+                                k += 1;
+                            }
+                        }
+                        if (k == 0)
+                        {
+                            l.Add(pro);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}
+<!-- Specs content -->
+
+    <!-- Main -->
+    <main class="container-fluid">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-10">
+                <div class="banner-section">
+                    <div class="banner-section-content">
+                        <div class="text-head">
+                            <h1>
+                                Tai Nghe
+                                <span class="text-head-1">Chính Hãng</span><span class="text-3D text-danger">HeadPhone</span>
+                            </h1>
+                            <a class="btn btn-dark btn-lg mt-3" asp-area="" asp-controller="Shop" asp-action="Index">Xem Shop</a>
+                        </div>
+                        <div class="banner-img">
+                            <img src="~/img/banner-hd.png" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="product-section bg-dark">
+                    <div class="product-section-content">
+                        <div class="text-section row d-flex justify-content-between align-items-center  ">
+                            <div class="col">
+                                <h3>
+                                    Tai Nghe
+                                    <span class="text-section-1">Không dây</span><span class="text-3D-section text-danger">Wireless</span>
+                                </h3>
+                            <a class="btn btn-danger btn-lg mt-2 " asp-area="" asp-controller="Shop" asp-action="Index">
+                                    Xem Shop
+                                </a>
+                            </div>
+                            <div class="col">
+                                <div class="banner1-img">
+                                    <img src="~/img/wl-1.png" alt="" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="product-section bg-danger">
+                    <div class="product-section-content">
+                        <div class="text-section row d-flex justify-content-between align-items-center">
+                            <div class="col">
+                                <h3>
+                                    Tai Nghe
+                                    <span class="text-section-1">Nhét tai</span><span class="text-3D-section text-dark">Earphone</span>
+                                </h3>
+                            <a class="btn btn-dark btn-lg mt-2" asp-area="" asp-controller="Shop" asp-action="Index">
+                                    Xem Shop
+                                </a>
+                            </div>
+                            <div class="col">
+                                <div class="banner2-img">
+                                    <img src="~/img/ie-1.png" alt="" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="product-section bg-success">
+                    <div class="product-section-content">
+                        <div class="text-section row d-flex justify-content-between align-items-center">
+                            <div class="col">
+                                <h3>
+                                    Tai Nghe
+                                    <span class="text-section-1">Không dây</span><span class="text-3D-section text-dark">Airpods</span>
+                                </h3>
+                            <a class="btn btn-dark btn-lg mt-2 " asp-area="" asp-controller="Shop" asp-action="Index">
+                                    Xem Shop
+                                </a>
+                            </div>
+                            <div class="col">
+                                <div class="banner2-img">
+                                    <img src="~/img/airpod.png" alt="" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="product-section bg-warning">
+                    <div class="product-section-content">
+                        <div class="text-section row d-flex justify-content-between align-items-center">
+                            <div class="col">
+                                <h3>
+                                    Tai Nghe
+                                    <span class="text-section-1">Gaming</span><span class="text-3D-section text-dark">GMphone</span>
+                                </h3>
+                            <a class="btn btn-danger btn-lg mt-2 " asp-area="" asp-controller="Shop" asp-action="Index">
+                                    Xem Shop
+                                </a>
+                            </div>
+                            <div class="col">
+                                <div class="banner2-img">
+                                    <img src="~/img/gaming.png" alt="" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <div class="container">
+        <div class="section-specs">
+            <h2>Sản Phẩm Sale</h2>
+        </div>
+
+    </div>
+    
+    <div class="container">
+    <div class="row row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 justify-content-center" id="latest-product">
+        @if (@l.Where(p => p.Sale != 0).ToList().Count() > 8)
+        {
+            @foreach (var product in @l.Where(p => p.Sale != 0).Take(8).OrderBy(p => p.Sale).ToList())
+            {
+                <div class="col-xl-3 col-sm-6">
+                    <div class="product-card">
+                        <div class="product-card-img">
+                            <a href="@Url.Action("Detailproduct", "Shop", new { productId = product.Idproduct })">
+                                @if(kt<=6){
+                                    
+                                    @if(kt==0){
+                                        <img src="~/img/hd-1.png" alt="">
+                                    }
+                                    @if(kt==1){
+                                        <img src="~/img/hd-2.png" alt="">
+                                    }
+                                    @if(kt==2){
+                                        <img src="~/img/hd-3.png" alt="">
+                                    }
+                                    @if (kt == 3)
+                                    {
+                                        <img src="~/img/earphone1.png" alt="">
+                                    }
+                                    @if (kt == 4)
+                                    {
+                                        <img src="~/img/wl-1.png" alt="">
+                                    }
+                                    @if(kt==5){
+                                        <img src="~/img/earphone2.png" alt="">
+                                    }
+                                    @if (kt == 6)
+                                    {
+                                        <img src="~/img/wl2.png" alt="">
+                                    }
+
+                                    kt++;
+                                }
+                                else
+                                {
+                                    <img src="~/img/hd-1.png" alt="">
+                                }
+
+                            </a>
+                        </div>
+                        <div class="product-card-info">
+                            <div class="product-card-btn">
+                                <button class="btn-card" onclick="window.location.href='@Url.Action("Detailproduct", "Shop", new { productId = product.Idproduct })'">shop</button>
+                                <button class="btn-card"><i class='bx bx-heart'></i></button>
+                                <button class="btn-card"><i class='bx bx-cart'></i></button>
+                            </div>
+                            <div class="product-card-name">
+                                @product.ProductName
+                            </div>
+                            <div class="product-card-price">
+                                <span><del>@string.Format("{0:N0}", product.Price) VND</del></span>
+                                <span class="curr-price">@string.Format("{0:N0}", (product.Price * (((decimal?)(1 - product.Sale / 100))))) VND</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            @foreach (var product in @l.Where(p => p.Sale != 0).OrderBy(p => p.Sale).ToList())
+            {
+                <div class="col-xl-3 col-sm-6">
+                    <div class="product-card">
+                        <div class="product-card-img">
+                            <a href="detailproduct.html">
+                                <img src="~/img/hd-1.png" alt="">
+                            </a>
+                        </div>
+                        <div class="product-card-info">
+                            <div class="product-card-btn">
+                                <button class="btn-card" onclick="window.location.href='@Url.Action("Detailproduct", "Shop", new { productId = product.Idproduct })'">shop</button>
+                                <button class="btn-card"><i class='bx bx-heart'></i></button>
+                                <button class="btn-card"><i class='bx bx-cart'></i></button>
+                            </div>
+                            <div class="product-card-name">
+                                @product.ProductName
+                            </div>
+                            <div class="product-card-price">
+                                <span><del>@string.Format("{0:N0}", product.Price) VND</del></span>
+                                <span class="curr-price">@string.Format("{0:N0}", (product.Price * (((decimal?)(1 - product.Sale / 100))))) VND</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+       </div>
+</div>
+
+    <div class="section-footer">
+        <a class="btn-footer btn-card" asp-area="" asp-controller="Shop" asp-action="IndexSale">Xem Thêm</a>
+    </div>
+
+<div class="container">
+    <div class="section-specs">
+        <h2>Sản Phẩm Mới Nhất</h2>
+    </div>
+
+    <div class="featured-container">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <div class="col">
+                <div class="featured-product">
+                    <div class="featured-box">
+                        <div class="featured-new">MỚI</div>
+                        <a href="#"><img src="~/img/New1-removebg-preview.png" alt="" class="featured-img"></a>
+                    </div>
+
+                    <div class="featured-text">
+                        <h3 class="featured-name">Jabra Elite 85h</h3>
+                        <span class="featured-price">500,000 VND</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col">
+                <div class="featured-product">
+                    <div class="featured-box">
+                        <div class="featured-new">MỚI</div>
+                        <a href="#"><img src="~/img/New2-removebg-preview.png" alt="" class="featured-img"></a>
+                    </div>
+
+                    <div class="featured-text">
+                        <h3 class="featured-name">WHappy Plugs Air 1 ANC</h3>
+                        <span class="featured-price">400,000 VND</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col">
+                <div class="featured-product">
+                    <div class="featured-box">
+                        <div class="featured-new">MỚI</div>
+                        <a href="#"><img src="~/img/New3-removebg-preview.png" alt="" class="featured-img"></a>
+                    </div>
+
+                    <div class="featured-text">
+                        <h3 class="featured-name">Yoro V5 led RGB</h3>
+                        <span class="featured-price">350,000 VND</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col">
+                <div class="featured-product">
+                    <div class="featured-box">
+                        <div class="featured-new">MỚI</div>
+                        <a href="#"><img src="~/img/New4-removebg-preview.png" alt="" class="featured-img"></a>
+                    </div>
+
+                    <div class="featured-text">
+                        <h3 class="featured-name">Remax Shenzhen Ruihe</h3>
+                        <span class="featured-price">500,000 VND</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+
+
+</div>
+    <!-- Bud -->
+    <div class="container">
+        <div class="buds-container row justify-content-center align-items-center">
+            <div class="buds-text">
+                <h2>Hyperx Mid Buds</h2>
+                <span>2.000.000 VND</span>
+                <p>Sử dụng công nghệ Bluetooth 5.0 SBC,AAC kết nối siêu nhanh chóng</p>
+            <a class="btn btn-danger" asp-area="" asp-controller="Shop" asp-action="Index">
+                    <i class="bx bx-shopping-bag"></i>
+                    <span>Mua ngay</span>
+                </a>
+
+            </div>
+            <!-- Buds image -->
+            <div class="buds-img">
+                <img src="~/img/buds.png" alt="">
+            </div>
+        </div>
+    </div>
+
+
+
+<!-- BLOG -->
+<div class="section-contact">
+    <h2>Tin Tức</h2>
+</div>
+
+<section class="py-3">
+    <div class="container container-blog overflow-hidden">
+        <div class="row gy-3 gy-lg-0 gx-xxl-5" id="blogRow">
+            <div class="col-12 col-lg-4">
+                <article>
+                    <figure class="rounded overflow-hidden mb-3 bsb-overlay-hover">
+                        <a href="#!">
+                            <img class="image-blog img-fluid bsb-scale bsb-hover-scale-up" loading="lazy" src="./img/blog1.jpg" alt="">
+                        </a>
+
+                    </figure>
+                    <div class="entry-header mb-3">
+                        <ul class="entry-meta list-unstyled d-flex mb-2">
+                            <li>
+                                <a class="link-primary text-decoration-none" href="#!">HyperZ</a>
+                            </li>
+                        </ul>
+                        <h2 class="entry-title h4 mb-0">
+                            <a class="link-dark text-decoration-none" href="#!">Top 10 tai nghe rẻ cho dân văn phòng</a>
+                        </h2>
+                    </div>
+                    <div class="entry-footer">
+                        <ul class="entry-meta list-unstyled d-flex align-items-center mb-0">
+                            <li>
+                                <a class="fs-7 link-secondary text-decoration-none d-flex align-items-center" href="#!">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                    </svg>
+                                    <span class="ms-2 fs-7">7 Tháng 8 2023</span>
+                                </a>
+                            </li>
+                            <li>
+                                <span class="px-3">&bull;</span>
+                            </li>
+                            <li>
+                                <a class="link-secondary text-decoration-none d-flex align-items-center" href="#!">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                    </svg>
+                                    <span class="ms-2 fs-7">55</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-lg-4">
+                <article>
+                    <figure class="rounded overflow-hidden mb-3 bsb-overlay-hover">
+                        <a href="#!">
+                            <img class="image-blog img-fluid bsb-scale bsb-hover-scale-up" loading="lazy" src="./img/blog2.jpg" alt="">
+                        </a>
+
+                    </figure>
+                    <div class="entry-header mb-3">
+                        <ul class="entry-meta list-unstyled d-flex mb-2">
+                            <li>
+                                <a class="link-primary text-decoration-none" href="#!">HyperZ</a>
+                            </li>
+                        </ul>
+                        <h2 class="entry-title h4 mb-0">
+                            <a class="link-dark text-decoration-none" href="#!">Top 10 tai nghe rẻ cho dân văn phòng</a>
+                        </h2>
+                    </div>
+                    <div class="entry-footer">
+                        <ul class="entry-meta list-unstyled d-flex align-items-center mb-0">
+                            <li>
+                                <a class="fs-7 link-secondary text-decoration-none d-flex align-items-center" href="#!">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                    </svg>
+                                    <span class="ms-2 fs-7">12 Tháng 8 2023</span>
+                                </a>
+                            </li>
+                            <li>
+                                <span class="px-3">&bull;</span>
+                            </li>
+                            <li>
+                                <a class="link-secondary text-decoration-none d-flex align-items-center" href="#!">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                    </svg>
+                                    <span class="ms-2 fs-7">39</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-lg-4">
+                <article>
+                    <figure class="rounded overflow-hidden mb-3 bsb-overlay-hover">
+                        <a href="#!">
+                            <img class="image-blog img-fluid bsb-scale bsb-hover-scale-up" loading="lazy" src="./img/blog-4.jpg" alt="">
+                        </a>
+
+                    </figure>
+                    <div class="entry-header mb-3">
+                        <ul class="entry-meta list-unstyled d-flex mb-2">
+                            <li>
+                                <a class="link-primary text-decoration-none" href="#!">HyperZ</a>
+                            </li>
+                        </ul>
+                        <h2 class="entry-title h4 mb-0">
+                            <a class="link-dark text-decoration-none" href="#!">Top 10 tai nghe rẻ cho dân văn phòng</a>
+                        </h2>
+                    </div>
+                    <div class="entry-footer">
+                        <ul class="entry-meta list-unstyled d-flex align-items-center mb-0">
+                            <li>
+                                <a class="fs-7 link-secondary text-decoration-none d-flex align-items-center" href="#!">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                    </svg>
+                                    <span class="ms-2 fs-7">21 Tháng 11 2023</span>
+                                </a>
+                            </li>
+                            <li>
+                                <span class="px-3">&bull;</span>
+                            </li>
+                            <li>
+                                <a class="link-secondary text-decoration-none d-flex align-items-center" href="#!">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                    </svg>
+                                    <span class="ms-2 fs-7">61</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-lg-4">
+                <article>
+                    <figure class="rounded overflow-hidden mb-3 bsb-overlay-hover">
+                        <a href="#!">
+                            <img class="image-blog img-fluid bsb-scale bsb-hover-scale-up" loading="lazy" src="./img/blog-4.jpg" alt="">
+                        </a>
+
+                    </figure>
+                    <div class="entry-header mb-3">
+                        <ul class="entry-meta list-unstyled d-flex mb-2">
+                            <li>
+                                <a class="link-primary text-decoration-none" href="#!">HyperZ</a>
+                            </li>
+                        </ul>
+                        <h2 class="entry-title h4 mb-0">
+                            <a class="link-dark text-decoration-none" href="#!">Top 10 tai nghe rẻ cho dân văn phòng</a>
+                        </h2>
+                    </div>
+                    <div class="entry-footer">
+                        <ul class="entry-meta list-unstyled d-flex align-items-center mb-0">
+                            <li>
+                                <a class="fs-7 link-secondary text-decoration-none d-flex align-items-center" href="#!">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                    </svg>
+                                    <span class="ms-2 fs-7">21 Tháng 8 2023</span>
+                                </a>
+                            </li>
+                            <li>
+                                <span class="px-3">&bull;</span>
+                            </li>
+                            <li>
+                                <a class="link-secondary text-decoration-none d-flex align-items-center" href="#!">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                    </svg>
+                                    <span class="ms-2 fs-7">61</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-lg-4">
+                <article>
+                    <figure class="rounded overflow-hidden mb-3 bsb-overlay-hover">
+                        <a href="#!">
+                            <img class="image-blog img-fluid bsb-scale bsb-hover-scale-up" loading="lazy" src="./img/blog-4.jpg" alt="">
+                        </a>
+
+                    </figure>
+                    <div class="entry-header mb-3">
+                        <ul class="entry-meta list-unstyled d-flex mb-2">
+                            <li>
+                                <a class="link-primary text-decoration-none" href="#!">HyperZ</a>
+                            </li>
+                        </ul>
+                        <h2 class="entry-title h4 mb-0">
+                            <a class="link-dark text-decoration-none" href="#!">Top 10 tai nghe rẻ cho dân văn phòng</a>
+                        </h2>
+                    </div>
+                    <div class="entry-footer">
+                        <ul class="entry-meta list-unstyled d-flex align-items-center mb-0">
+                            <li>
+                                <a class="fs-7 link-secondary text-decoration-none d-flex align-items-center" href="#!">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                    </svg>
+                                    <span class="ms-2 fs-7">21 Tháng 9 2023</span>
+                                </a>
+                            </li>
+                            <li>
+                                <span class="px-3">&bull;</span>
+                            </li>
+                            <li>
+                                <a class="link-secondary text-decoration-none d-flex align-items-center" href="#!">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                    </svg>
+                                    <span class="ms-2 fs-7">61</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-lg-4">
+                <article>
+                    <figure class="rounded overflow-hidden mb-3 bsb-overlay-hover">
+                        <a href="#!">
+                            <img class="image-blog img-fluid bsb-scale bsb-hover-scale-up" loading="lazy" src="./img/blog-4.jpg" alt="">
+                        </a>
+
+                    </figure>
+                    <div class="entry-header mb-3">
+                        <ul class="entry-meta list-unstyled d-flex mb-2">
+                            <li>
+                                <a class="link-primary text-decoration-none" href="#!">HyperZ</a>
+                            </li>
+                        </ul>
+                        <h2 class="entry-title h4 mb-0">
+                            <a class="link-dark text-decoration-none" href="#!">Top 10 tai nghe rẻ cho dân văn phòng</a>
+                        </h2>
+                    </div>
+                    <div class="entry-footer">
+                        <ul class="entry-meta list-unstyled d-flex align-items-center mb-0">
+                            <li>
+                                <a class="fs-7 link-secondary text-decoration-none d-flex align-items-center" href="#!">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                    </svg>
+                                    <span class="ms-2 fs-7">21 Tháng 7 2023</span>
+                                </a>
+                            </li>
+                            <li>
+                                <span class="px-3">&bull;</span>
+                            </li>
+                            <li>
+                                <a class="link-secondary text-decoration-none d-flex align-items-center" href="#!">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                    </svg>
+                                    <span class="ms-2 fs-7">61</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="text-center">
+            <div id="nextButton" class="btn-next"><i class='bx bxs-chevron-right'></i></div>
+            <div id="prevButton" class="btn-prev"><i class='bx bxs-chevron-left'></i></div>
+        </div>
+    </div>
+</section>
+<!-- MAP -->
+<div class="section-contact">
+    <h2>Liên Hệ</h2>
+</div>
+
+<div class="contact-container container">
+    <div class="row">
+        <div class="col-6">
+            <div class="contact-img">
+                <img class="img-fluid" src="./img/contact.jpg" alt="">
+            </div>
+        </div>
+        <div class="col-6">
+            <form class="contact-form" method="post" action="@Url.Action("SendEmail", "Contact")">
+
+                <input type="text" id="fname" name="name" placeholder="Họ tên..">
+
+                <input type="text" name="phoneNumber" placeholder="Số điện thoại của bạn">
+
+                <textarea id="subject" name="message" placeholder="Nội dung của bạn.." style="height:200px"></textarea>
+
+                <input type="submit" value="Gửi">
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div class="container mt-5">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d251637.95196238213!2d105.6189045!3d9.779349!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1709738967446!5m2!1svi!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+
+<!-- Top footer -->
+<div class="top-footer mt-5">
+    <div class="container px-sm-0">
+        <div class="top-footer-wrap">
+            <div class="row row-cols-2 row-cols-sm-2 row-cols-md-4 justify-content-center align-items-center">
+                <div class="col policy-item">
+                    <a href="#">
+                        <img src="https://pos.nvncdn.com/d0f3ca-7136/bn/20230914_6bU8irTd.png" alt="Đổi hàng 30 ngày">
+                        <span>
+                            <span class="policy-title">Đổi hàng 30 ngày</span>
+                            <span class="policy-desc">Thời gian đổi sản phẩm lên đến 30 ngày</span>
+                        </span>
+                    </a>
+                </div>
+                <div class="col policy-item">
+                    <a href="#">
+                        <img src="https://pos.nvncdn.com/d0f3ca-7136/bn/20230914_OHrlewqe.png" alt="Bảo hành 90 ngày">
+                        <span>
+                            <span class="policy-title">Bảo hành 90 ngày</span>
+                            <span class="policy-desc">Hỗ trợ bảo hành miễn phí lên đến 90 ngày</span>
+                        </span>
+                    </a>
+                </div>
+                <div class="col policy-item">
+                    <a href="#">
+                        <img src="https://pos.nvncdn.com/d0f3ca-7136/bn/20230914_yUil5un4.png" alt="5 ngày hoàn tiền">
+                        <span>
+                            <span class="policy-title">5 ngày hoàn tiền</span>
+                            <span class="policy-desc">Thời gian hoàn tiền không lý do lên đến 5 ngày</span>
+                        </span>
+                    </a>
+                </div>
+                <div class="col policy-item">
+                    <a href="#">
+                        <img src="https://pos.nvncdn.com/d0f3ca-7136/bn/20231002_0fyEtU6G.png" alt="Ưu đãi lên đến 15%">
+                        <span>
+                            <span class="policy-title">Ưu đãi lên đến 15%</span>
+                            <span class="policy-desc">Ưu đãi cho khách hàng vip lên đến 15%</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Main -->

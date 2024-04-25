@@ -1,0 +1,108 @@
+﻿@model IEnumerable<DoAnLTWeb.Models.CartItem>
+@{
+    decimal totalAmount = (decimal) Model.Sum(item => item.Product.Price * (((decimal?)(1 - item.Product.Sale / 100))) * item.Quantity);
+    decimal shippingFee = 0;
+    decimal totalPayment = totalAmount + shippingFee;
+}
+
+<section class="pt-5 pb-5">
+    <div class="container">
+        <div class="row w-100">
+            <div class="col-lg-12 col-md-12 col-12">
+                <h2 class="display-5 mb-5 text-center">Thanh Toán</h2>
+                <table id="shoppingCart" class="table table-condensed table-responsive">
+                    <thead>
+                        <tr>
+                            <th style="width:60%">Sản phẩm</th>
+                            <th style="width:12%">Giá</th>
+                            <th style="width:10%">Số lượng</th>
+                            <th style="width:10%">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td data-th="Product">
+                                    <div class="row">
+                                        <div class="col-md-3 text-left">
+                                            <img src="~/img/hd-1.png" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                        </div>
+                                        <div class="col-md-9 text-left mt-sm-2">
+                                            <h4>@item.Product.ProductName</h4>
+                                            <p class="font-weight-light">tronix</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-th="Price">@string.Format("{0:N0}", (item.Product.Price * (((decimal?)(1 - item.Product.Sale / 100))))) VND</td>
+                                <td data-th="Quantity">
+                                    <div class="text-center">@item.Quantity</div>
+                                </td>
+                                <td class="actions" data-th="">
+                                    <div class="text-right">@string.Format("{0:N0}", ((item.Product.Price * (((decimal?)(1 - item.Product.Sale / 100)))) * item.Quantity)) VND</div>
+                                </td>
+                            </tr>
+                        }
+                       
+                    </tbody>
+                </table>
+                
+                <div class="d-flex justify-content-between mt-4">
+                    <h3>Phương thức thanh toán</h3>
+                    <div class="checkout-cate d-flex">
+                        <button>Thanh toán khi nhận hàng</button>
+                        <button>Thanh toán trực tuyến</button>
+                    </div>
+                </div>
+                <div class="checkout d-flex justify-content-end mt-5">
+                    <div class="checkout-item d-flex justify-content-end">
+                        <h5>Phí vận chuyển:</h5>
+                        <h5>@shippingFee.ToString("N0") VND</h5>
+                    </div>
+                    <div class="checkout-item d-flex justify-content-end">
+                        <h5>Tổng tiền hàng:</h5>
+                        <h5>@totalAmount.ToString("N0") VND</h5>
+                    </div>
+                    <div class="checkout-item d-flex align-items-center justify-content-end">
+                        <h5>Tổng thanh toán:</h5>
+                        <h4 style="color: red;">@totalPayment.ToString("N0") VND</h4>
+                    </div>
+                </div>
+
+
+               
+
+                    <div class="infor-checkout mt-4 d-flex justify-content-between">
+                        <h3>Thông tin nhận hàng</h3>
+
+                        <form action="@Url.Action("Payment", "Cart")" method="post" class="form-infor" accept-charset="">
+                            @Html.AntiForgeryToken()
+                            <div class="infor-content mb-2">
+                                <label for="email" class="form-label">Số diện thoại</label>
+                                <input class="form-control" name="phoneNumber" type="text" id="phoneNumber" placeholder="Enter your phone number">
+                            </div>
+
+                            <div class="infor-content">
+                                <label for="adr" class="form-label">Địa chỉ</label>
+                                <textarea class="form-control" name="address" rows="4" id="address" placeholder="Enter your address"></textarea>
+                            </div>
+
+                            <div class="order-md-2 text-right">
+                                <button type="submit" class="btn btn-primary mb-4 btn-lg pl-5 pr-5">Đặt Hàng</button>
+                            </div>
+
+                        </form>
+                    </div>
+
+           
+        </div>
+        
+            
+        </div>
+        <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
+            <a href="/gio-hang">
+                <i class="fas fa-arrow-left mr-2"></i> Trở lại
+            </a>
+        </div>
+    </div>
+</section>

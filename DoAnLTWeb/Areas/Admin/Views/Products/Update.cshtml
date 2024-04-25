@@ -1,0 +1,213 @@
+﻿@model DoAnLTWeb.Models.Product
+
+<h2>Edit Product</h2>
+<form asp-action="ProductUp" asp-controller="Products" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Idproduct" />
+    <!--product name-->
+    <div class="form-group">
+        <label asp-for="ProductName"></label>
+        <input asp-for="ProductName" class="form-control" />
+        <span asp-validation-for="ProductName" class="text-danger"></span>
+    </div>
+
+    <!--price-->
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <!--sale-->
+    <div class="form-group">
+        <label asp-for="Sale"></label>
+        <input asp-for="Sale" class="form-control" />
+        <span asp-validation-for="Sale" class="text-danger"></span>
+    </div>
+
+    <!--supplier-->
+    <div class="form-group">
+        <label>Suppliers</label>
+        <select asp-for="Idsupplier" asp-items="@ViewBag.Suppliers" class="form-control"></select>
+        <span class="text-danger"></span>
+    </div>
+
+    <!--category-->
+    <div class="form-group">
+        <label>Category</label>
+        <select asp-for="IdproductType" asp-items="@ViewBag.ProductTypes" class="form-control"></select>
+        <span class="text-danger"></span>
+    </div>
+
+
+    <!--Status-->
+    <div class="form-group">
+        <label asp-for="Status">Status</label>
+        <div class="form-check">
+            <input asp-for="Status" class="form-check-input" type="radio" id="statusVisible" value="1" checked="@(Model.Status == 1 ? true : false)">
+            <label class="form-check-label" for="statusVisible">Hiển thị</label>
+        </div>
+        <div class="form-check">
+            <input asp-for="Status" class="form-check-input" type="radio" id="statusHidden" value="0" checked="@(Model.Status == 0 ? true : false)">
+            <label class="form-check-label" for="statusHidden">Tạm ẩn</label>
+        </div>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+
+    <!--description-->
+    <div class="form-group">
+        <label asp-for="ProductDescription"></label>
+        <textarea asp-for="ProductDescription" class="form-control"></textarea>
+        <span asp-validation-for="ProductDescription" class="text-danger"></span>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary">Update Product</button>
+    <button asp-action="View" class="btn btn-primary">Back</button>
+
+</form>
+
+<!--form image-->
+<div class="form-group">
+    <label>Product Images</label>
+    <div id="previewImage">
+        @foreach (var image in ViewBag.imageResult)
+        {
+            <div class="image-container">
+                <form id="productForm" asp-action="Update" method="post" enctype="multipart/form-data">
+                    <img src="@Url.Content(image.UrlImages)" alt="Product Image" style="max-width:200px;" class="product-image" />
+                    <input type="hidden" name="idproduct" value="@Model.Idproduct" />
+                    <input type="hidden" name="idimage" value="@image.Idimages" />
+                    <input type="file" name="file" accept="image/*" onchange="previewImage(this)" style="display: none;">
+                    <button type="button" onclick="this.previousElementSibling.click()" class="btn btn-secondary">Choose Image</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+
+                    <form id="productForm" action="Delete" method="post" enctype="multipart/form-data">
+                        <button type="button" class="btn btn-danger"
+                                onclick="deleteImage(@image.Idimages)">
+                            Delete
+                        </button>
+                        <input id="deleteimage" name="deleteimage" type="hidden" value="@image.Idimages" />
+                        <input type="hidden" name="idproduct" value="@Model.Idproduct" />
+                    </form>
+
+
+                </form>
+            </div>
+        }
+    </div>
+
+
+
+    <!-- New Image Upload Section -->
+    <form asp-action="CreateImage" asp-controller="Products" method="post" enctype="multipart/form-data">
+        <div class="card">
+            <div class="image-container">
+                <img id="imageDisplay" src="#" alt="Image Preview" style="width: 100%; height: auto;" />
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Upload New Product Image</h5>
+                <p class="card-text">Select an image file for the product.</p>
+                <input type="file" id="imageUpload" name="file" accept="image/*" class="form-control-file" onchange="displayImage(this)">
+                <button type="button" class="btn btn-secondary" onclick="document.getElementById('imageUpload').click();">Choose File</button>
+                <input type="hidden" asp-for="Idproduct" />
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </form>
+
+    <style>
+        .card {
+            width: 400px;
+            margin: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 10px #ccc;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .card-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .btn-secondary, .btn-primary {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 10px 5px 0;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+            .btn-primary:hover, .btn-secondary:hover {
+                opacity: 0.8;
+            }
+    </style>
+
+
+
+
+
+
+
+    <script>
+
+        function displayImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('imageDisplay').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var imgElement = input.parentElement.querySelector('.product-image');
+                    imgElement.src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        function deleteImage(imageId) {
+            if (confirm('Are you sure you want to delete this image?')) {
+                var form = document.getElementById('productForm');
+                form.method = 'post'; // Confirm the method is POST
+                form.action = '@Url.Action("Delete", "Products")'; // Change form action to delete
+                form.submit(); // Submit the form
+            }
+        }
+
+
+    </script>

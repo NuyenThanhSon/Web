@@ -1,0 +1,264 @@
+﻿@model DoAnLTWeb.Models.Product
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+    var supplier = ViewBag.Supplier as DoAnLTWeb.Models.Supplier;
+    var product = ViewBag.Product as DoAnLTWeb.Models.Product;
+
+}
+
+
+<section>
+    <div class="breadcum-container container-fluid">
+        <div class="box container">
+            <div class="breadcum">
+                <a href="/trang-chu">Trang chủ</a>
+                <span><i class='bx bxs-chevrons-right'></i></span>
+                <a href="/san-pham">Shop</a>
+                <span><i class='bx bxs-chevrons-right'></i></span>
+                <a href="/chi-tiet-san-pham/@product.Idproduct">@product.ProductName</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container mb-5 mt-5">
+        <div class="row product-row">
+            <div class="col-lg-5 col-md-12">
+                <div class="product-img" id="product-img">
+                    <img src="~/img/hd-1.png" alt="">
+                </div>
+                <div class="box">
+                    <div class="product-img-list">
+                        <div class="product-img-item">
+                            <img src="~/img/hd-1.png" alt="">
+                        </div>
+                        <div class="product-img-item">
+                            <img src="~/img/hd-2.png" alt="">
+                        </div>
+                        <div class="product-img-item">
+                            <img src="~/img/hd-3.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-12">
+                <h1 class="product-info-name">
+                    @product.ProductName
+                </h1>
+                <div class="product-info-detail">
+                    <span class="product-info-detail-title">Thương hiệu:</span>
+                    <a href="#">@supplier.SupplierName</a>
+                </div>
+                <div class="product-info-detail">
+                    <span class="product-info-detail-title">Đánh giá:</span>
+                    <span class="rating">
+                        <i class="bx bxs-star"></i>
+                        <i class="bx bxs-star"></i>
+                        <i class="bx bxs-star"></i>
+                        <i class="bx bxs-star"></i>
+                        <i class="bx bxs-star"></i>
+                    </span>
+                </div>
+                <div class="product-description">
+                    <p id="productDescription">
+                        @product.ProductDescription
+                    </p>
+                </div>
+                <div class="product-info-price">@string.Format("{0:N0}", (product.Price * (((decimal?)(1 - product.Sale / 100))))) VND</div>
+                <div class="product-quantity-wrapper">
+                    <span class="product-quantity-btn" onclick="decreaseQuantity()">
+                        <i class="bx bx-minus"></i>
+                    </span>
+                    <span class="product-quantity">1</span>
+                    <span class="product-quantity-btn" onclick="increaseQuantity()">
+                        <i class="bx bx-plus"></i>
+                    </span>
+                    @if (@ViewBag.warehousedetail != null){
+                        @foreach (Warehousedetail warehousedetail in @ViewBag.warehousedetail)
+                        {
+                            if (warehousedetail.Idproduct== product.Idproduct)
+                            {
+                                <div class="product-info-mess" style="margin-left: 15px;">Còn @warehousedetail.QuantityInStock sản phẩm trong kho</div>
+                                break;
+                            }
+                        }
+                    }
+                    
+                </div>
+                <div class="product-buy d-flex">
+                    <button onclick="addToCart(@product.Idproduct, parseInt(document.querySelector('.product-quantity').innerText))" class="product-info-btn btn-footer btn-card mt-4">
+                        Thêm vào giỏ hàng
+                        <i class='bx bx-shopping-bag'></i>
+                    </button>
+                    <button onclick="addToCartAndRedirect(@product.Idproduct, parseInt(document.querySelector('.product-quantity').innerText))" class="product-info-btn btn-footer btn-card mt-4">
+                        Mua ngay
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="box mt-5">
+            <div class="box-header mt-3 mb-2">
+                Mô tả sản phẩm
+            </div>
+            <div class="product-detail-description">
+                <button class="btn-view-description btn-footer button-dark mt-5" id="view-all-desc">
+                    Xem thêm
+                </button>
+                <div class="product-detail-description-content">
+                    <p>
+                        @product.ProductDescription
+                    </p>
+                    <div class="product-detail-img">
+                        <img src="~/img/hd-1.png" alt="">
+                    </div>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Assumenda quam fugit voluptate ipsam itaque quisquam dolore quos nobis cum.
+                        olestiae, libero aperiam. Error tempore dolores fuga obcaecati voluptatem beatae expedita.
+                        libero aperiam. Error tempore dolores fuga obcaecati voluptatem beatae expedita.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Assumenda quam fugit voluptate ipsam itaque quisquam dolore quos nobis cum.
+                        olestiae, libero aperiam. Error tempore dolores fuga obcaecati voluptatem beatae expedita.
+                        libero aperiam. Error tempore dolores fuga obcaecati voluptatem beatae expedita.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </p>
+                    <div class="product-detail-img">
+                        <img src="~/img/hd-2.png" alt="">
+                    </div>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Assumenda quam fugit voluptate ipsam itaque quisquam dolore quos nobis cum.
+                        olestiae, libero aperiam. Error tempore dolores fuga obcaecati voluptatem beatae expedita.
+                        libero aperiam. Error tempore dolores fuga obcaecati voluptatem beatae expedita.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Assumenda quam fugit voluptate ipsam itaque quisquam dolore quos nobis cum.
+                        olestiae, libero aperiam. Error tempore dolores fuga obcaecati voluptatem beatae expedita.
+                        libero aperiam. Error tempore dolores fuga obcaecati voluptatem beatae expedita.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="box mt-4 mb-4">
+            <div class="box-header">
+                Các sản phẩm khác
+            </div>
+            <div class="row" id="related-products">
+                @foreach (var otherProduct in ViewBag.OtherProducts)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="product-card">
+                            <div class="product-card-img">
+                                <a href="@Url.Action("Detailproduct", "Shop", new { productId = otherProduct.Idproduct })"      >
+                                    <img src="~/img/hd-2.png" alt="">
+                                </a>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="product-card-btn">
+                                    <button class="btn-card">shop</button>
+                                    <button class="btn-card"><i class='bx bx-heart'></i></button>
+                                    <button class="btn-card"><i class='bx bx-cart'></i></button>
+                                </div>
+                                <div class="product-card-name">
+                                    <a href="@Url.Action("Detailproduct", "Shop", new { productId = otherProduct.Idproduct })" style="text-decoration: none">
+                                    @otherProduct.ProductName
+                                    </a>
+                                </div>
+                                <div class="product-card-price">
+                                    @if (@otherProduct.Sale != 0)
+                                    {
+                                        <span><del>@otherProduct.Price</del></span>
+
+                                        <span class="curr-price">@string.Format("{0:N0}", (@otherProduct.Price * (((decimal?)(1 - @otherProduct.Sale / 100))))) VND</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="curr-price">@otherProduct.Price VND</span>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    function addToCart(productId, quantity) {
+        $.ajax({
+            url: '/Cart/AddToCart',
+            type: 'POST',
+            data: {
+                productId: productId,
+                quantity: quantity
+            },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function addToCartAndRedirect(productId, quantity) {
+        // Thêm sản phẩm vào giỏ hàng thông qua request AJAX
+        $.ajax({
+            url: '/Cart/AddToCart',
+            type: 'POST',
+            data: {
+                productId: productId,
+                quantity: quantity
+            },
+            success: function (response) {
+                if (response.status == true) {
+                    window.location.href = "/thanh-toan";
+                }
+            },
+            error: function (xhr, status, error) {
+                window.location.href = "/thanh-toan";
+            }
+        });
+    }
+
+    function increaseQuantity() {
+        var quantityElement = document.querySelector('.product-quantity');
+        var currentQuantity = parseInt(quantityElement.innerText);
+        quantityElement.innerText = currentQuantity + 1;
+    }
+
+    function decreaseQuantity() {
+        var quantityElement = document.querySelector('.product-quantity');
+        var currentQuantity = parseInt(quantityElement.innerText);
+        if (currentQuantity > 2) {
+            quantityElement.innerText = currentQuantity - 1;
+        }
+    }
+
+    var maxLength = 200; // Số ký tự tối đa bạn muốn hiển thị
+
+    var descriptionElement = document.getElementById("productDescription");
+    var description = descriptionElement.innerText;
+
+    if (description.length > maxLength) {
+        var trimmedDescription = trimText(description, maxLength);
+        descriptionElement.innerText = trimmedDescription;
+    }
+
+    function trimText(text, maxLength) {
+        if (text.length <= maxLength) {
+            return text;
+        }
+        var trimmedText = text.substr(0, maxLength);
+        var lastSpaceIndex = trimmedText.lastIndexOf(" ");
+        if (lastSpaceIndex !== -1) {
+            trimmedText = trimmedText.substr(0, lastSpaceIndex);
+        }
+        return trimmedText + "...";
+    }
+</script>

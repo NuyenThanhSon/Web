@@ -1,0 +1,14 @@
+﻿@model DoAnLTWeb.Models.ImportedProduct
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="IdimportedProducts" class="control-label"></label>
+        <select asp-for="IdimportedProducts" class="form-control" asp-items="@(ViewBag.ProductIds != null ? ViewBag.ProductIds : null)"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Idstaff" class="control-label"></label>
+        <select asp-for="Idstaff" class="form-control" asp-items="@(ViewBag.StaffIds != null ? ViewBag.StaffIds : null)"></select>
+    </div>
+    <!-- Other input fields for the ImportedProduct entity -->
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
